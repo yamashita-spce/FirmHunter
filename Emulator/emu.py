@@ -1,5 +1,7 @@
 #! /usr/bin/python3
 
+# usage: python3 emu.py <firmware_path> 
+
 import os
 import os.path
 import pexpect
@@ -33,6 +35,8 @@ def run_extractor(firm_name):
     ]
 
     child = pexpect.spawn(extractor_cmd, extractor_args, timeout=None)
+    print ("[+] exec: " + extractor_cmd + " " + firm_name + " " + os.path.join(firmadyne_path, "images"))
+
     child.expect_exact("Tag: ")
     tag = child.readline().strip().decode("utf8")
     child.expect_exact(pexpect.EOF)
@@ -60,6 +64,8 @@ def identify_arch(image_id):
         os.path.join(firmadyne_path, "images", image_id + ".tar.gz")
     ]
     child = pexpect.spawn(identfy_arch_cmd, identfy_arch_args, cwd=firmadyne_path)
+    print ("[+] exec: " + identfy_arch_cmd + " " + os.path.join(firmadyne_path, "images", image_id + ".tar.gz"))
+
     child.expect_exact(":")
     arch = child.readline().strip().decode("utf8")
     print ("[+] Architecture: " + arch)
@@ -76,6 +82,8 @@ def make_image(image_id, arch):
     makeimage_cmd = os.path.join(firmadyne_path, "scripts/makeImage.sh")
     makeimage_args = ["--", makeimage_cmd, image_id, arch]
     child = pexpect.spawn("sudo", makeimage_args, cwd=firmadyne_path)
+    print ("[+] exec: " + "sudo " + makeimage_cmd + " " + image_id + " " + arch)
+
     child.sendline(sudo_pass)
     child.expect_exact(pexpect.EOF)
 
@@ -86,6 +94,7 @@ def infer_network(image_id, arch):
     network_args = [image_id, arch]
 
     child = pexpect.spawn(network_cmd, network_args, cwd=firmadyne_path)
+    print ("[+] exec: " + network_cmd + " " + image_id + " " + arch)
 
     child.expect_exact("Interfaces:", timeout=None)
     interfaces = child.readline().strip().decode("utf8")
@@ -105,6 +114,7 @@ def final_run(image_id, arch, qemu_dir):
     print ("[+] Command line:", runsh_path)
     run_cmd = ["--", runsh_path]
     child = pexpect.spawn("sudo", run_cmd, cwd=firmadyne_path)
+    print("[+] exec: " + "sudo " + runsh_path)
     child.sendline(sudo_pass)
     child.interact()
 
@@ -112,6 +122,9 @@ def final_run(image_id, arch, qemu_dir):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("firm_path", help="The path to the firmware image", type=str)
+    #add print details information
+    # parser.add_argument("-v", "--verbose", help="Print details information", action="store_true")
+    
     args = parser.parse_args()
   
     image_id = run_extractor(args.firm_path)

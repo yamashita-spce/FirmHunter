@@ -18,6 +18,10 @@ LIBNVRAM="${LIB_DIR}/libnvram.so.${ARCH}"
 CONSOLE="${LIB_DIR}/console.${ARCH}"
 
 echo "----Copying Filesystem Tarball----"
+# WORK_DIR : ROOT_DIR/Emulator/scratch
+# TARBALL_DIR : ROOT_DIR/Emulator/images
+# CONSOLE：　ROOT_DIR/source/LIB/console.$(ARCH)
+
 mkdir -p "${WORK_DIR}"
 chmod a+rwx "${WORK_DIR}"
 chown -R "${USER}" "${WORK_DIR}"
@@ -78,19 +82,22 @@ rm "${IMAGE_DIR}/fixImage.sh"
 rm "${IMAGE_DIR}/busybox"
 
 echo "----Setting up FIRMADYNE----"
+# CONSOLE：　ROOT_DIR/source/LIB/console.$(ARCH)
+# IMAGE_DIR : ROOT_DIR/Emulator/scratch/$(IID)/image
+
 cp "${CONSOLE}" "${IMAGE_DIR}/firmadyne/console"
 chmod a+x "${IMAGE_DIR}/firmadyne/console"
 mknod -m 666 "${IMAGE_DIR}/firmadyne/ttyS1" c 4 65
 
+# LIBNVRAM：　ROOT_DIR/source/LIB/libnvram.so.$(ARCH)
 cp "${LIBNVRAM}" "${IMAGE_DIR}/firmadyne/libnvram.so"
 chmod a+x "${IMAGE_DIR}/firmadyne/libnvram.so"
 
-cp "${SCRIPT_DIR}/preInit.sh" "${IMAGE_DIR}/firmadyne/preInit.sh"
+# SCRIPT_DIR：$HOME_DIR/scripts
+sudo cp "${SCRIPT_DIR}/preInit.sh" "${IMAGE_DIR}/firmadyne/preInit.sh"
 chmod a+x "${IMAGE_DIR}/firmadyne/preInit.sh"
 
 # cp -r "${IMAGE_DIR}" "${EMU_DIR}/image_${IID}"
-
-
 
 
 echo "----Unmounting QEMU Image----"

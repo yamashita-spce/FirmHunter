@@ -478,8 +478,7 @@ class ExtractionItem(object):
         If this file is of a known firmware type, directly attempt to extract
         the kernel and root filesystem.
         """
-        for module in binwalk.scan(self.item, "-y", "header", signature=True,
-                                   quiet=True):
+        for module in binwalk.scan(self.item, "-y", "header", signature=True, quiet=True):
             for entry in module.results:
                 # uImage
                 if "uImage header" in entry.description:
