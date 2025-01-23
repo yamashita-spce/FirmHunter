@@ -1,0 +1,1 @@
+cmd_net/ipv6/netfilter/built-in.o :=  mipseb-linux-musl-ld  -m elf32ltsmip   -r -o net/ipv6/netfilter/built-in.o net/ipv6/netfilter/ip6_tables.o net/ipv6/netfilter/ip6table_filter.o net/ipv6/netfilter/ip6table_mangle.o net/ipv6/netfilter/ip6table_raw.o net/ipv6/netfilter/nf_conntrack_ipv6.o 

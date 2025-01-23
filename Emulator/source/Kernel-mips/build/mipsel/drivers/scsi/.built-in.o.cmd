@@ -1,0 +1,1 @@
+cmd_drivers/scsi/built-in.o :=  mipseb-linux-musl-ld  -m elf32ltsmip   -r -o drivers/scsi/built-in.o drivers/scsi/scsi_mod.o drivers/scsi/scsi_transport_spi.o drivers/scsi/sym53c8xx_2/built-in.o drivers/scsi/sd_mod.o 

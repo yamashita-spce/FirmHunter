@@ -1,0 +1,1 @@
+cmd_drivers/input/serio/built-in.o :=  mipseb-linux-musl-ld  -m elf32ltsmip   -r -o drivers/input/serio/built-in.o drivers/input/serio/serio.o drivers/input/serio/i8042.o drivers/input/serio/serport.o drivers/input/serio/pcips2.o drivers/input/serio/libps2.o 

@@ -1,0 +1,1 @@
+cmd_drivers/firmadyne/built-in.o :=  arm-linux-musleabi-ld -EL    -r -o drivers/firmadyne/built-in.o drivers/firmadyne/firmadyne.o drivers/firmadyne/hooks.o drivers/firmadyne/devfs_stubs.o drivers/firmadyne/procfs_stubs.o 
